@@ -48,7 +48,9 @@ namespace Content.Client.Canvas.Ui
         private string? _selected;
         private Color _color = Color.Black;
 
-        private const int ButtonSize = 30; // Size of each button (width and height)
+        private const int ColorsButtonSize = 24; // Size of each button (width and height)
+
+        private const int ButtonSize = 20; // Size of each button (width and height)
 
         public event Action<Color>? OnColorSelected;
         public event Action<string>? OnSelected;
@@ -152,13 +154,10 @@ namespace Content.Client.Canvas.Ui
             _color = color;
 
             OnColorSelected?.Invoke(color);
-            //RefreshList();
         }
 
         private void SearchChanged(LineEdit.LineEditEventArgs obj)
         {
-            //_autoSelected = ""; // Placeholder to kick off the auto-select in refreshlist()
-            //RefreshList();
         }
 
         public void UpdateState(BoundUserInterfaceState state)
@@ -177,19 +176,6 @@ namespace Content.Client.Canvas.Ui
         }
         public void AdvanceState(string drawn)
         {
-            //var filter = Search.Text;
-            //if (!filter.Contains(',') || !filter.Contains(drawn))
-            //    return;
-
-            //var first = filter[..filter.IndexOf(',')].Trim();
-
-            //if (first.Equals(drawn, StringComparison.InvariantCultureIgnoreCase))
-            //{
-            //    Search.Text = filter[(filter.IndexOf(',') + 1)..].Trim();
-            //    _autoSelected = first;
-            //}
-
-            //RefreshList();
         }
 
         private void HandleColorSelected(Color color)
@@ -229,8 +215,8 @@ namespace Content.Client.Canvas.Ui
                 // Create a button for each color
                 var colorButton = new Button
                 {
-                    MinSize = new Vector2(ButtonSize, ButtonSize),
-                    MaxSize = new Vector2(ButtonSize, ButtonSize),
+                    MinSize = new Vector2(ColorsButtonSize, ColorsButtonSize),
+                    MaxSize = new Vector2(ColorsButtonSize, ColorsButtonSize),
                     ModulateSelfOverride = color, // Set the button background to the color
                 };
 
@@ -434,45 +420,6 @@ namespace Content.Client.Canvas.Ui
             Logger.ErrorS("canvas", $"color {colorCode} color code fail.");
             return Color.White; // Default to white if parsing fails
         }
-
-
-        /// <summary>
-        /// Converts a Color object to a color code character.
-        /// </summary>
-        private char GetCodeFromColor(Color color)
-        {
-            if (color == Color.Transparent) return 'Z';
-            if (color == Color.Red) return 'R';
-            if (color == Color.Green) return 'G';
-            if (color == Color.Blue) return 'B';
-            if (color == Color.Yellow) return 'Y';
-            if (color == Color.Cyan) return 'C';
-            if (color == Color.Magenta) return 'M';
-            if (color == new Color(1.0f, 0.65f, 0.0f)) return 'O'; // Orange
-            if (color == new Color(0.75f, 0.0f, 0.75f)) return 'P'; // Purple
-            if (color == new Color(0.33f, 0.55f, 0.2f)) return 'T'; // Teal
-            if (color == new Color(0.6f, 0.3f, 0.1f)) return 'N'; // Brown
-            if (color == new Color(0.9f, 0.8f, 0.7f)) return 'E'; // Beige
-            if (color == Color.LightGray) return 'L';
-            if (color == Color.DarkGray) return 'D';
-            if (color == new Color(0.5f, 0.5f, 1.0f)) return 'F'; // Pastel Blue
-            if (color == new Color(1.0f, 0.5f, 0.5f)) return 'I'; // Pastel Pink
-            if (color == new Color(0.0f, 0.5f, 0.5f)) return 'Q'; // Dark Cyan
-            if (color == new Color(0.4f, 0.2f, 0.6f)) return 'H'; // Deep Purple
-            if (color == Color.Black) return 'K';
-            return 'W'; // Default to white
-        }
-
-
-        public void InitializeFromYaml(string paintingCode)
-        {
-            if (!string.IsNullOrEmpty(paintingCode))
-            {
-                _paintingCode = paintingCode;
-            }
-
-            //PopulatePaintingGrid();
-        }
         private void FixPaintingCode()
         {
             int requiredSegments = _width * _height;
@@ -495,7 +442,5 @@ namespace Content.Client.Canvas.Ui
                 _paintingCode = string.Join(";", paddedSegments);
             }
         }
-
-
     }
 }

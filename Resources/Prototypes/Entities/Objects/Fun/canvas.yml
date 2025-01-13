@@ -32,6 +32,11 @@
     artist: ""
     height: 16
     width: 16
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
+    - id: MaterialCloth1
+      amount: 1
 
 - type: entity
   parent: CanvasBase
