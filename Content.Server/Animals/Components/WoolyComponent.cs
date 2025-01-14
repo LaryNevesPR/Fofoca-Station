@@ -29,7 +29,7 @@ public sealed partial class WoolyComponent : Component
     /// <summary>
     ///     The solution to add reagent to.
     /// </summary>
-    [ViewVariables(VVAccess.ReadOnly)]
+    [DataField]
     public Entity<SolutionComponent>? Solution;
 
     /// <summary>
