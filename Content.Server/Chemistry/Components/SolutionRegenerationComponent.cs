@@ -20,8 +20,8 @@ public sealed partial class SolutionRegenerationComponent : Component
     /// <summary>
     /// The solution to add reagents to.
     /// </summary>
-    [ViewVariables]
-    public Entity<SolutionComponent>? SolutionRef = null;
+    [DataField("solutionRef")]
+    public Entity<SolutionComponent>? Solution = null;
 
     /// <summary>
     /// The reagent(s) to be regenerated in the solution.
