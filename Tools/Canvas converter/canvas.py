@@ -160,13 +160,24 @@ def generate_code():
     code, _ = convert_image_to_code(app.image, height, width)
     output_text.delete(1.0, tk.END)
     output_text.insert(tk.END, code)
-
 # Create the main application window
 app = tk.Tk()
 app.title("PaintingCode Converter with Preview")
 
+# Define a main container for layout adjustment
+main_frame = tk.Frame(app)
+main_frame.pack(padx=10, pady=10)
+
+# Left section for input controls
+left_frame = tk.Frame(main_frame)
+left_frame.pack(side=tk.LEFT, padx=10, pady=10)
+
+# Right section for image preview
+right_frame = tk.Frame(main_frame)
+right_frame.pack(side=tk.RIGHT, padx=10, pady=10)
+
 # File input section
-file_frame = tk.Frame(app)
+file_frame = tk.Frame(left_frame)
 file_frame.pack(pady=10)
 file_button = tk.Button(file_frame, text="Upload Image", command=open_file)
 file_button.pack(side=tk.LEFT, padx=5)
@@ -176,37 +187,45 @@ url_entry.pack(side=tk.LEFT, padx=5)
 fetch_button = tk.Button(file_frame, text="Fetch Image", command=fetch_image)
 fetch_button.pack(side=tk.LEFT, padx=5)
 
-original_img_label = tk.Label(file_frame)
-original_img_label.pack(side=tk.RIGHT, padx=5)
-
 # Input for height and width
-size_frame = tk.Frame(app)
+size_frame = tk.Frame(left_frame)
 size_frame.pack(pady=10)
 tk.Label(size_frame, text="Height:").pack(side=tk.LEFT, padx=5)
 height_entry = tk.Entry(size_frame, width=5)
 height_entry.pack(side=tk.LEFT, padx=5)
-height_entry.insert(0,"16")
+height_entry.insert(0, "16")
 tk.Label(size_frame, text="Width:").pack(side=tk.LEFT, padx=5)
 width_entry = tk.Entry(size_frame, width=5)
 width_entry.pack(side=tk.LEFT, padx=5)
-width_entry.insert(0,"16")
+width_entry.insert(0, "16")
 
-# Preview button and image preview
-preview_button = tk.Button(app, text="Preview with PaintingCode", command=preview_generated_image)
-preview_button.pack(pady=5)
-
-preview_img_label = tk.Label(app)
-preview_img_label.pack(pady=10)
-
-# Generate button
-generate_button = tk.Button(app, text="Generate PaintingCode", command=generate_code)
-generate_button.pack(pady=10)
+# Generate and preview buttons
+button_frame = tk.Frame(left_frame)
+button_frame.pack(pady=10)
+generate_button = tk.Button(button_frame, text="Generate PaintingCode", command=generate_code)
+generate_button.pack(side=tk.LEFT, padx=5)
+preview_button = tk.Button(button_frame, text="Preview with PaintingCode", command=preview_generated_image)
+preview_button.pack(side=tk.LEFT, padx=5)
 
 # Output area
-output_frame = tk.Frame(app)
+output_frame = tk.Frame(left_frame)
 output_frame.pack(pady=10)
+output_label = tk.Label(output_frame, text="Generated PaintingCode:")
+output_label.pack()
 output_text = tk.Text(output_frame, wrap=tk.WORD, width=50, height=10)
 output_text.pack()
+
+# Original image preview on the right
+original_img_label = tk.Label(right_frame, text="Uploaded Image", relief=tk.RAISED)
+original_img_label.pack(pady=10)
+
+# Generated image preview below the original image
+preview_img_label = tk.Label(right_frame, text="Generated Preview", relief=tk.RAISED)
+preview_img_label.pack(pady=10)
+
+# Message label for previews or status
+status_label = tk.Label(app, text="", fg="green")
+status_label.pack(pady=5)
 
 # Run the application
 app.mainloop()
